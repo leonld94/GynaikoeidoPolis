@@ -157,7 +157,7 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
                 ResourceNameText.text = "<color=#7FFF7F>식량</color>";
 
                 // 숫자 바꾸기
-                ResourceValueText.text = $"<color=#7FFF7F>{FoodVaultState.ResourceProduction * workerNum}</color>";
+                ResourceValueText.text = $"<color=#7FFF7F>{foodBuilding.Work(foodBuilding.lastIsHalf)}</color>";
             }
             else if (buildingState is SupplyMineState materialsBuilding)
             {
@@ -177,7 +177,7 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
                 ResourceNameText.text = "<color=#FF7F7F>자재</color>";
 
                 // 숫자 바꾸기
-                ResourceValueText.text = $"<color=#FF7F7F>{SupplyMineState.ResourceProduction * workerNum}</color>";
+                ResourceValueText.text = $"<color=#FF7F7F>{materialsBuilding.Work(materialsBuilding.lastIsHalf)}</color>";
             }
             else
             {

@@ -5,10 +5,11 @@ using System.Text;
 internal interface IWorkable
 {
     /// <summary>
-    /// 노동을 수행하는 Method. 그런데 산출물 값은 Simulation에서 상수로 다루려고 여기서 안함.
+    /// 생산량을 반환하는 Method. 생산량은 
     /// </summary>
-    /// <returns>현재 노동자 수를 반환</returns>
-    public int Work();
+    /// <param name="isHalf">생산량 반토막 적용 여부</param>
+    /// <returns>시간당 총 생산량 반환</returns>
+    public int Work(bool isHalf);
 
     /// <summary>
     /// 인간 노동자 추가

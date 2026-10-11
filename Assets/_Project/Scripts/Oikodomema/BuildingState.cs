@@ -34,12 +34,28 @@ public class BuildingState
     /// </summary>
     public void Construct()
     {
-        if(AssignedMaterials < RequiredMaterials)
-        {
-            return;
-        }
+
+        //// 자원이 전부 할당되기 전까지는 증가금지.
+        //if(AssignedMaterials < RequiredMaterials)
+        //{
+        //    return;
+        //}
         ConstructionProgress += ConstructionGrowth 
             * (AnthropoiBuilderCount + GynaikoeideisBuilderCount);
+
+
+        // 자원이 할당된 비율만큼까지만 건설도 증가
+        // 100%일 때는 따로 두는게 안전할듯. float 나눗셈이라서
+        // 어쩌면 else if 문 내부의 값이 절대로 1이 안 될수도 있으니까
+        if (AssignedMaterials == RequiredMaterials)
+        {
+
+        }
+        else if ((float)AssignedMaterials / (float)RequiredMaterials < ConstructionProgress)
+        {
+            // 준비가 안됐으면 강제로 낮추기.
+            ConstructionProgress = (float)AssignedMaterials / (float)RequiredMaterials;
+        }
     }
 
     /// <summary>

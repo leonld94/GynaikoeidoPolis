@@ -20,6 +20,9 @@ public class TopUIBarScript : MonoBehaviour
     public void Initialize(GameState gameState)
     {
         GameState = gameState;
+
+        HourUIRefresh();
+        GynaikoeideisUIRefresh();
     }
 
     public void HourUIRefresh()

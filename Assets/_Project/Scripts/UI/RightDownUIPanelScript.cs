@@ -24,6 +24,14 @@ public class RightDownUIPanelScript : MonoBehaviour
     public TextMeshProUGUI TimeText;
     public TextMeshProUGUI RescueDayText;
 
+    public void Initialize(GameState gameState, SimulationClock clock,
+        bool isPaused, TimeSpeed gameSpeed)
+    {
+        TimeSwitchChanged(isPaused, gameSpeed);
+        TimeUIRefresh(clock.PureDay, clock.Hour);
+        RescueDayUIRefresh(GameState.RescueArrivalDay - clock.PureDay);
+    }
+
     public void TimeSwitchChanged(bool isPaused, TimeSpeed gameSpeed)
     {
         //Debug.Log("RightDownUIPanelScript.TimeSwitchCahged() Called");

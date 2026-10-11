@@ -26,19 +26,22 @@ public class ScreenUIManager : MonoBehaviour
     private bool _flag;
     private int _num;
 
-    public void Initialize(SimulationClock clock, GameState gameState)
+    public void Initialize(SimulationClock clock, GameState gameState, 
+        bool isPaused, TimeSpeed gameSpeed)
     {
         Clock = clock;
         GameState = gameState;
         TopUIBar.Initialize(gameState);
         LeftDownUIPanel.Initialize(gameState);
+        RightDownUIPanel.Initialize(gameState, clock, isPaused, gameSpeed);
+
     }
 
     // 1. 날짜
     // 필요정보: 날짜; SimulationClock
     public void DayUIRefresh()
     {
-        RightDownUIPanel.RescueDayUIRefresh(GameState.RescueArrivalDay - Clock.Day);
+        RightDownUIPanel.RescueDayUIRefresh(GameState.RescueArrivalDay - Clock.PureDay);
         LeftDownUIPanel.HazardLevelUIRefresh();
     }
 

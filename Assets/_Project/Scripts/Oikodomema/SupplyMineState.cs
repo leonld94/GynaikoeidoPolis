@@ -8,7 +8,8 @@ public class SupplyMineState : BuildingState, IWorkable
     public int AnthroposWorkerCount { get; protected set; }
     public int GynaikoeidesWorkerCount { get; protected set; }
 
-    public const int ResourceProduction = 50;
+    public const int ResourceProduction = 15;
+    public bool lastIsHalf;
 
     public SupplyMineState(string siteId, bool isConstructed) 
         : base(siteId, isConstructed)
@@ -18,9 +19,11 @@ public class SupplyMineState : BuildingState, IWorkable
         RequiredMaterials = 600;
     }
 
-    public int Work()
+    public int Work(bool isHalf)
     {
-        return AnthroposWorkerCount + GynaikoeidesWorkerCount;
+        lastIsHalf = isHalf;
+        return (AnthroposWorkerCount + GynaikoeidesWorkerCount) * SupplyMineState.ResourceProduction
+            / (isHalf ? 2 : 1);
     }
 
     public bool AssignAnthroposWorker()

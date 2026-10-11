@@ -98,6 +98,11 @@ public class Simulation
 
         GameState.EditStorageValue(foodStgNum, gnkStgNum, mtrStgNum);
 
+
+        // 맨 처음엔 창고 꽉 채워두기
+        GameState.StoredFood = GameState.FoodStorageCapacity;
+        GameState.StoredMaterials = GameState.MaterialsStorageCapacity;
+
         //foreach(BuildingState building in BuildingStates)
         //{
         //    Debug.Log(building.ToString());
@@ -128,7 +133,7 @@ public class Simulation
         //Debug.Log("CheckFailureCondition Called");
         //Debug.Log($"Remain Humans are {GameState.LivingAnthropoiCount}");
 
-        if (GameState.LivingAnthropoiCount <= GameState.AnthropoiDeathLimit)
+        if (GameState.LivingAnthropoiCount < GameState.AnthropoiDeathLimit)
         {
             if (GameState.GameFlow == 0)
             {
@@ -246,8 +251,10 @@ public class Simulation
             bool isWorkerDismantled = GameState.CalculateDismantle();
             if (isSomeoneDying)
             {
+                // GameStatus.CalculateDies()에서 목표인구수는 줄였는데 노동자수가 그대로라면
                 if(GameState.LivingAnthropoiCount < GameState.WorkingAnthropoiCount)
                 {
+                    // 노동자수도 줄이자
                     _resourceSystem.CalculateDiesPersons();
                 }
 

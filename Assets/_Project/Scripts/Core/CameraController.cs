@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -25,12 +26,28 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _heightStep = 1f;
     [SerializeField] private float _minHeight = 10f;
     [SerializeField] private float _maxHeight = 100f;
-
+    [Header("Boundary")]
+    [SerializeField] private BoxCollider _boxBoundary;
+    
     Vector2 _cameraMovementInput;
     float _cameraRotationInput;
     float _scrollInput;
     Vector3 _cameraPosition;
     float _cameraZoomDelta;
+    Transform _cameraFocus;
+
+    public void Start()
+    {
+        //_cameraPosition = gameObject.transform;
+        //_cameraFocus = gameObject.transform + transform.forward * gameObject.transform.y
+
+        // 지금 각도가 45도라서 y만큼 떨어지게 됨. 물론 tangent 함수를 쓰면 일반화할 수 있긴 한데.
+        // 할까 그러면? 임롬식 카메라 움직임 부럽긴 했는데.
+        // 그러면 아싸리 이동할 카메라 위치란 값을 만들어두고 exponential 접근을 하게 만들면 되겠네.
+        // 그러면 각도도 그냥 휠로 움직이게 해놓을까. 카메라 움직임에 
+        // 초점 계산은 그러면 LateUpdate에 넣자. 카메라가 이동을 일단 한 다음에 그 위치에 맞는 초점이 나와야하니까.
+        // 
+    }
 
     private void OnEnable()
     {
@@ -68,13 +85,21 @@ public class CameraController : MonoBehaviour
         Vector3 right =
             Vector3.ProjectOnPlane(transform.right, Vector3.up).normalized;
 
-        Vector3 movement =
+        Vector3 movementInput =
             right * _cameraMovementInput.x +
             forward * _cameraMovementInput.y;
 
         transform.position +=
-            movement * _moveSpeed * Time.unscaledDeltaTime;
+            movementInput * _moveSpeed * Time.unscaledDeltaTime;
 
+        // 경계 안삐져나가게 설정
+        Bounds bounds = _boxBoundary.bounds;
+        Vector3 position = transform.position;
+
+        position.x = Mathf.Clamp(position.x, bounds.min.x, bounds.max.x);
+        position.z = Mathf.Clamp(position.z, bounds.min.z, bounds.max.z);
+
+        transform.position = position;
     }
 
 

@@ -13,14 +13,14 @@ public class GameState
     public const int AnthropoiDeathLimit = 10;
 
 
-    /// Level1      0일 ~ 9일
-    /// Level2      10일 ~ 17일
+    /// Level1      0일 ~ 4일
+    /// Level2      5일 ~ 17일
     /// Level3      18일 ~ 23일
     /// Level4      24일 ~ 26일
     /// Level5      27일 ~ 29일
     public enum HazardLevelDay
     {
-        Level1 = 9,
+        Level1 = 4,
         Level2 = 17,
         Level3 = 23,
         Level4 = 26,
@@ -30,14 +30,14 @@ public class GameState
     /// 식량
     public int FoodStorageCapacity = 0;                     // 최대 저장량
     public int FoodStorageGrowth = 1000;                    // 창고 하나당 1000
-    public int StoredFood = 1000;                           // 저장량
+    public int StoredFood = 0;                              // 저장량
     public int FoodConsumedPerHour = 0;                     // 시간당 소비량
     public int FoodConsumedPerHourWithMultiplier = 0;       // 시간당 소비량(위기값 적용)
 
     // 자재
-    public int MaterialsStorageCapacity = 0;             // 최대 저장량
+    public int MaterialsStorageCapacity = 0;                // 최대 저장량
     public int MaterialsStorageGrowth = 1000;               // 창고 하나당 1000
-    public int StoredMaterials = 2000;                      // 저장량
+    public int StoredMaterials = 0;                         // 저장량
     public int MaterialsConsumedPerHour = 0;                // 시간당 소비량
     public int MaterialsConsumedPerHourWithMultiplier = 0;  // 시간당 소비량(위기값 적용)
     public int RequiredWorkingMaterials = 0;
@@ -60,7 +60,7 @@ public class GameState
 
     // 연산용 값.
     // 유지비
-    public const int FoodConsumedPerAnthroposPerHour = 1;
+    public const int FoodConsumedPerAnthroposPerHour = 2;
     public const int MaterialsConsumedPerAnthroposPerHour = 1;
     public const int MaterialsConsumedPerGynaikoeidesPerHour = 1;
     public const int MaterialsConsumedPerLabourer = 1;
@@ -76,15 +76,15 @@ public class GameState
     {
         bool isSomeoneDying = false;
 
+        // 1. 가능하다면 자유노동력 감소
         while (StoredFood < FoodThreshold)
         {
             isSomeoneDying = true;
             LivingAnthropoiCount--;
             StoredFood -= FoodThreshold;
 
-            // 1. 가능하다면 자유노동력 감소
-            // 2. 안된다면 노동자 감소
-            // 이 작업은 다른 class에게 작업 이전: ResourceSystem
+            // 2. 안된다면 노동자 감소. 여기서는 인간 수만 강제로 줄여놓음.
+            // 그럼 그 수에 맞도록 노동자도 줄이는 작업은 다른 class에게 작업 이전: ResourceSystem
         }
         return isSomeoneDying;
     }

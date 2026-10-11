@@ -1,4 +1,3 @@
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -57,7 +56,7 @@ public class SimulationController : MonoBehaviour
         {
             Debug.Log("Prototype 감지 from SimulationController.Start()");
 
-            ScreenUIManager.Initialize(Simulation.Clock, Simulation.GameState);
+            ScreenUIManager.Initialize(Simulation.Clock, Simulation.GameState, IsPaused, GameSpeed);
             
             Simulation.FailureOccurred += ScreenUIManager.ShowFailureUI;
             Simulation.VictoryAchieved += ScreenUIManager.ShowVictoryUI;

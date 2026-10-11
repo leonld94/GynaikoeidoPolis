@@ -20,6 +20,7 @@ public class BuildingSelectionControllerScript : MonoBehaviour
     private ISelectableBuilding _prevHoveredObject;
     private ISelectableBuilding _nowSelectedObject;
     private ISelectableBuilding _prevSelectedObject;
+    private bool _selectionRequested;
     private bool mustOffUI;
 
     private void OnEnable()
@@ -34,21 +35,32 @@ public class BuildingSelectionControllerScript : MonoBehaviour
         SelectAction.action.performed -= OnSelect;
 
         SelectAction.action.Disable();
+        _selectionRequested = false;
     }
 
     private void OnSelect(InputAction.CallbackContext context)
     {
-        //Debug.Log("OnSelet called");
+        _selectionRequested = true;
+    }
 
-        //대상을 지정한다: 이상해보이겠지만 Update 구조상 previous Hovered를 가져와야함
-        _nowSelectedObject = _prevHoveredObject;
+    private void LateUpdate()
+    {
+        if (!_selectionRequested)
+        {
+            return;
+        }
 
-        // UI 버튼을 누른 클릭이 월드까지 전달되는 것을 방지
+        _selectionRequested = false;
+
+        // UI 버튼을 누른 클릭이 월드까지 넘치는 것을 막기
         if (EventSystem.current != null &&
             EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
+
+        // LateUpdate 시점에는 이번 프레임의 Hover 판정이 이미 끝나 있다.
+        _nowSelectedObject = _nowHoveredObject;
 
         //Debug.Log("Object is" + _nowSelectedObject);
         //Debug.Log("BuildingState is " + _nowSelectedObject?.SelectableBuildingState);
@@ -58,11 +70,7 @@ public class BuildingSelectionControllerScript : MonoBehaviour
         {
             BuildingInfoUIPanel.OffUIPanel();
         }
-        // 이전 UI를 끈다
-        //_prevSelectedObject?.HideUIPanel();
-        // 현재 UI를 킨다
-        //_nowSelectedObject?.ShowUIPanel();
-        // 현재를 이전으로 옮긴다.
+
         _prevSelectedObject = _nowSelectedObject;
     }
 

@@ -30,6 +30,9 @@ public class LeftDownUIPanelScript : MonoBehaviour
     {
         GameState = gameState;
         AnthropoiThresholdValueText.text = GameState.AnthropoiDeathLimit.ToString();
+
+        PopUIRefresh();
+        HazardLevelUIRefresh();
     }
 
     public void PopUIRefresh()

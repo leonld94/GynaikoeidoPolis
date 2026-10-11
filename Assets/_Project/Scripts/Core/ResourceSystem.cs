@@ -19,34 +19,12 @@ public class ResourceSystem
 
     public void CalculateResourceProduction()
     {
-        //GameState.FoodStorageCapacity = 0;
-        //GameState.MaterialsStorageCapacity = 0;
-        //GameState.InactiveGynaikoeideisStorageCapacity = 0;
 
-        //foreach(BuildingState building in ActiveBuildings)
-        //{
-        //    if(building is DepotState DepotBuilding)
-        //    {
-        //        if(DepotBuilding.StoreType == StoreType.Food)
-        //        {
-        //            GameState.FoodStorageCapacity += GameState.FoodStorageGrowth;
-        //        }
-        //        else if (DepotBuilding.StoreType == StoreType.Materials)
-        //        {
-        //            GameState.MaterialsStorageCapacity += GameState.MaterialsStorageGrowth;
-        //        }
-        //        else if (DepotBuilding.StoreType == StoreType.Gynaikoeideis)
-        //        {
-        //            GameState.InactiveGynaikoeideisStorageCapacity += GameState.InactiveGynaikoeideisStorageGrowth;
-        //        }
-        //    }
-
-        //}
         foreach (BuildingState building in ActiveBuildings)
         {
             if (building is FoodVaultState FoodBuilding)
             {
-                int production = FoodBuilding.Work() * FoodVaultState.ResourceProduction;
+                int production = FoodBuilding.Work(GameState.StoredMaterials < 0);
 
                 if (GameState.FoodStorageCapacity < GameState.StoredFood + production)
                 {
@@ -56,7 +34,7 @@ public class ResourceSystem
             }
             else if (building is SupplyMineState MaterialBuilding)
             {
-                int production = MaterialBuilding.Work() * SupplyMineState.ResourceProduction;
+                int production = MaterialBuilding.Work(GameState.StoredMaterials < 0);
                 if (GameState.MaterialsStorageCapacity < GameState.StoredMaterials + production)
                 {
                     production = GameState.MaterialsStorageCapacity - GameState.StoredMaterials;
@@ -110,13 +88,8 @@ public class ResourceSystem
                 break;
             }
 
-            _flag = enumerator.Current.FireAnthroposBuilder();
-            if (_flag)
-            {
-                GameState.LivingAnthropoiCount--;
-                GameState.StoredFood -= GameState.FoodThreshold;
-            }
-            else
+            // 더 비울거 없으면 다음 건물로 이동
+            if (!enumerator.Current.FireAnthroposBuilder())
             {
                 hasCurrent = enumerator.MoveNext();
             }
@@ -143,24 +116,14 @@ public class ResourceSystem
             {
                 if(enumerator.Current is FoodVaultState foodBuilding)
                 {
-                    if(0 < foodBuilding.AnthroposWorkerCount)
-                    {
-                        foodBuilding.FireAnthroposWorker();
-                        GameState.StoredFood -= GameState.FoodThreshold;
-                    }
-                    else
+                    if(!foodBuilding.FireAnthroposWorker())
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
                 }
                 else if(enumerator.Current is SupplyMineState materialsBuilding)
                 {
-                    if (0 < materialsBuilding.AnthroposWorkerCount)
-                    {
-                        materialsBuilding.FireAnthroposWorker();
-                        GameState.StoredFood -= GameState.FoodThreshold;
-                    }
-                    else
+                    if (!materialsBuilding.FireAnthroposWorker())
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
@@ -187,13 +150,7 @@ public class ResourceSystem
                 break;
             }
 
-            _flag = enumerator.Current.FireGynaikoeidesBuilder();
-            if (_flag)
-            {
-                GameState.ActiveGynaikoeideisCount--;
-                GameState.StoredMaterials -= GameState.GynaikoeidesToMaterials;
-            }
-            else
+            if (!enumerator.Current.FireGynaikoeidesBuilder())
             {
                 hasCurrent = enumerator.MoveNext();
             }
@@ -220,24 +177,14 @@ public class ResourceSystem
             {
                 if (enumerator.Current is FoodVaultState foodBuilding)
                 {
-                    if (0 < foodBuilding.GynaikoeidesWorkerCount)
-                    {
-                        foodBuilding.FireGynaikoeidesWorker();
-                        GameState.StoredMaterials -= GameState.GynaikoeidesToMaterials;
-                    }
-                    else
+                    if (!foodBuilding.FireGynaikoeidesWorker())
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
                 }
                 else if (enumerator.Current is SupplyMineState materialsBuilding)
                 {
-                    if (0 < materialsBuilding.AnthroposWorkerCount)
-                    {
-                        materialsBuilding.FireGynaikoeidesWorker();
-                        GameState.StoredMaterials -= GameState.GynaikoeidesToMaterials;
-                    }
-                    else
+                    if (!materialsBuilding.FireGynaikoeidesWorker())
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
@@ -247,6 +194,12 @@ public class ResourceSystem
                     hasCurrent = enumerator.MoveNext();
                 }
             }
+        }
+
+        // 다 돌았는데도 부족하면 그냥 0으로 만들기.
+        if(GameState.StoredMaterials < 0)
+        {
+            GameState.StoredMaterials = 0;
         }
     }
 }

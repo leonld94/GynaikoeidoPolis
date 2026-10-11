@@ -9,7 +9,9 @@ public class FoodVaultState : BuildingState, IWorkable
     public int AnthroposWorkerCount { get; protected set; }
     public int GynaikoeidesWorkerCount { get; protected set; }
 
-    public const int ResourceProduction = 50;
+    public const int ResourceProduction = 5;
+
+    public bool lastIsHalf;
 
     public FoodVaultState(string siteId, bool isConstructed) 
         : base(siteId, isConstructed)
@@ -20,9 +22,11 @@ public class FoodVaultState : BuildingState, IWorkable
     }
 
 
-    public int Work()
+    public int Work(bool isHalf)
     {
-        return AnthroposWorkerCount + GynaikoeidesWorkerCount;
+        lastIsHalf = isHalf;
+        return (AnthroposWorkerCount + GynaikoeidesWorkerCount) * FoodVaultState.ResourceProduction 
+            / (isHalf ? 2 : 1);
     }
     public bool AssignAnthroposWorker()
     {
