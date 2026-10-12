@@ -77,11 +77,11 @@ public class GameState
         bool isSomeoneDying = false;
 
         // 1. 가능하다면 자유노동력 감소
-        while (StoredFood < FoodThreshold)
+        while (StoredFood <= FoodThreshold)
         {
             isSomeoneDying = true;
             LivingAnthropoiCount--;
-            StoredFood -= FoodThreshold;
+            StoredFood -= FoodThreshold;    // 빼기로 되어있지만 실제론 값을 더하는거임. 음수라서.
 
             // 2. 안된다면 노동자 감소. 여기서는 인간 수만 강제로 줄여놓음.
             // 그럼 그 수에 맞도록 노동자도 줄이는 작업은 다른 class에게 작업 이전: ResourceSystem

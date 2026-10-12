@@ -20,6 +20,7 @@ public class ScreenUIManager : MonoBehaviour
     [SerializeField] private AudioSource ButtonClickSound;
     [SerializeField] private AudioSource CloseButtonClickSound;
     [SerializeField] private AudioSource TimeChangedSound;
+    [SerializeField] private AudioSource ConstructionCompleteSound;
 
     ////TopUIBar			                    Hour(식량, 자재, 인형)    Button(인형)
     ////LeftDownUIPanel	    Day(추위강도)		Hour(사망/분해)           Button(인형)
@@ -104,6 +105,7 @@ public class ScreenUIManager : MonoBehaviour
     {
         BuildingInfoUIPanel.RefreshIfSelected(building);
         LeftDownUIPanel.PopUIRefresh();
+        ConstructionCompleteSound.Play();
     }
 
     // 주기: 버튼이 눌릴 때 => 즉 호출 경우가 버튼 눌릴 때인거잖아?

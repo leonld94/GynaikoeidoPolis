@@ -80,7 +80,7 @@ public class ResourceSystem
         bool hasCurrent = enumerator.MoveNext();
 
         // 0. 건설 노동자부터 전부 빼기
-        while (GameState.StoredFood < GameState.FoodThreshold)
+        while (GameState.LivingAnthropoiCount <= GameState.WorkingAnthropoiCount)
         {
 
             if (!hasCurrent)
@@ -88,8 +88,11 @@ public class ResourceSystem
                 break;
             }
 
-            // 더 비울거 없으면 다음 건물로 이동
-            if (!enumerator.Current.FireAnthroposBuilder())
+            if (enumerator.Current.FireAnthroposBuilder())
+            {
+                GameState.WorkingAnthropoiCount--;
+            }
+            else
             {
                 hasCurrent = enumerator.MoveNext();
             }
@@ -101,7 +104,7 @@ public class ResourceSystem
         // 1. 앞부터 순회하며 인간 노동자 전부 빼기
         // 2. 수가 부족하면 그냥 종료하기
         // 어차피 인간이 다 죽으면 겜오버임
-        while (GameState.StoredFood < GameState.FoodThreshold)
+        while (GameState.LivingAnthropoiCount <= GameState.WorkingAnthropoiCount)
         {
             if(!hasCurrent)
             {
@@ -116,14 +119,22 @@ public class ResourceSystem
             {
                 if(enumerator.Current is FoodVaultState foodBuilding)
                 {
-                    if(!foodBuilding.FireAnthroposWorker())
+                    if (foodBuilding.FireAnthroposWorker())
+                    {
+                        GameState.WorkingAnthropoiCount--;
+                    }
+                    else
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
                 }
                 else if(enumerator.Current is SupplyMineState materialsBuilding)
                 {
-                    if (!materialsBuilding.FireAnthroposWorker())
+                    if (materialsBuilding.FireAnthroposWorker())
+                    {
+                        GameState.WorkingAnthropoiCount--;
+                    }
+                    else
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
@@ -142,7 +153,7 @@ public class ResourceSystem
         bool hasCurrent = enumerator.MoveNext();
 
         // 0. 건설 노동자부터 전부 빼기
-        while (GameState.StoredMaterials < GameState.MaterialsThreshold)
+        while (GameState.ActiveGynaikoeideisCount <= GameState.WorkingGynaikoeideisCount)
         {
 
             if (!hasCurrent)
@@ -155,6 +166,7 @@ public class ResourceSystem
                 GameState.WorkingGynaikoeideisCount--;
                 GameState.ActiveGynaikoeideisCount--;
                 GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+                // 인간은 안더하는데 여기선 더하는게 맞음. 둘이 구조가 살짝 다름.
             }
             else 
             {
@@ -167,7 +179,7 @@ public class ResourceSystem
 
         // 1. 앞부터 순회하며 인형 노동자 전부 빼기
         // 2. 수가 부족하면 그냥 종료하기.
-        while (GameState.StoredMaterials < GameState.MaterialsThreshold)
+        while (GameState.ActiveGynaikoeideisCount < GameState.WorkingGynaikoeideisCount)
         {
 
             if (!hasCurrent)
@@ -188,6 +200,7 @@ public class ResourceSystem
                         GameState.WorkingGynaikoeideisCount--;
                         GameState.ActiveGynaikoeideisCount--;
                         GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+                        // 인간은 안더하는데 여기선 더하는게 맞음. 둘이 구조가 살짝 다름.
                     }
                     else
                     {
@@ -201,6 +214,7 @@ public class ResourceSystem
                         GameState.WorkingGynaikoeideisCount--;
                         GameState.ActiveGynaikoeideisCount--;
                         GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+                        // 인간은 안더하는데 여기선 더하는게 맞음. 둘이 구조가 살짝 다름.
                     }
                     else
                     {

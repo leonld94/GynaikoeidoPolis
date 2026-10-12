@@ -211,25 +211,15 @@ public class SimulationController : MonoBehaviour
         {
             _timeAccumulator -= TickInterval;
             _timeChange = Simulation.Tick();
-        }
-
-        if (_timeChange.DayChanged)
-        {
-            ScreenUIManager.DayUIRefresh();
-            ScreenUIManager.HourUIRefresh();
-            _timeChange = new TimeChange();
-        }
-        else if (_timeChange.HourChanged)
-        {
-            ScreenUIManager.HourUIRefresh();
-            _timeChange = new TimeChange();
-        }
-        else
-        {
-
-            // 필요없는 Method인듯.
-            // Todo: UI 다 구현하고 이거 재고하기
-            //ScreenUIManager.GeneralUIRefresh();
+            if (_timeChange.DayChanged)
+            {
+                ScreenUIManager.DayUIRefresh();
+                ScreenUIManager.HourUIRefresh();
+            }
+            else if (_timeChange.HourChanged)
+            {
+                ScreenUIManager.HourUIRefresh();
+            }
         }
     }
 }

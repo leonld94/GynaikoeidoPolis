@@ -33,4 +33,9 @@ public class EndingPanel : MonoBehaviour
     {
         SceneManager.LoadScene("PrototypeGameplayScene");
     }
+
+    public void ExitButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
 }
