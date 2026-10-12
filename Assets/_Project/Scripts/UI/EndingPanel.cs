@@ -1,6 +1,6 @@
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.SceneManagement;
 
 public class EndingPanel : MonoBehaviour
 {
@@ -27,5 +27,10 @@ public class EndingPanel : MonoBehaviour
             $"계속되는 사망으로 구조까지 {DDay}일을 남기고 결국 무너지고 말았습니다.\r\n\r\n" +
             $"그러나 당신은 분명 최선을 다했습니다.";
         gameObject.SetActive(true);
+    }
+
+    public void RestartButtonClicked()
+    {
+        SceneManager.LoadScene("PrototypeGameplayScene");
     }
 }

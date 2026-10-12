@@ -16,6 +16,11 @@ public class ScreenUIManager : MonoBehaviour
     [SerializeField] private EndingPanel EndingPanel;
     [SerializeField] private BuildingInfoUIPanelScript BuildingInfoUIPanel;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource ButtonClickSound;
+    [SerializeField] private AudioSource CloseButtonClickSound;
+    [SerializeField] private AudioSource TimeChangedSound;
+
     ////TopUIBar			                    Hour(식량, 자재, 인형)    Button(인형)
     ////LeftDownUIPanel	    Day(추위강도)		Hour(사망/분해)           Button(인형)
     ////RightDownUIPanel	Day(D-Day)			Hour(시간)
@@ -34,7 +39,7 @@ public class ScreenUIManager : MonoBehaviour
         TopUIBar.Initialize(gameState);
         LeftDownUIPanel.Initialize(gameState);
         RightDownUIPanel.Initialize(gameState, clock, isPaused, gameSpeed);
-
+        BuildingInfoUIPanel.Initialize();
     }
 
     // 1. 날짜
@@ -134,7 +139,7 @@ public class ScreenUIManager : MonoBehaviour
     public void TimeSwitchChanged(bool isPaused, TimeSpeed gameSpeed)
     {
         //Debug.Log("ScreenUIManager.TimeSwitchCahged() Called");
-
+        //TimeChangedSound.Play();
         RightDownUIPanel.TimeSwitchChanged(isPaused, gameSpeed);
     }
 
@@ -336,5 +341,15 @@ public class ScreenUIManager : MonoBehaviour
                 ResourceUIRefresh();
             }
         }
+    }
+
+    public void PlayButtonClickSound()
+    {
+        ButtonClickSound.Play();
+    }
+
+    public void PlayCloseButtonClickSound()
+    {
+        CloseButtonClickSound.Play();
     }
 }

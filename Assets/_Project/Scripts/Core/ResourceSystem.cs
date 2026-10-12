@@ -24,7 +24,7 @@ public class ResourceSystem
         {
             if (building is FoodVaultState FoodBuilding)
             {
-                int production = FoodBuilding.Work(GameState.StoredMaterials < 0);
+                int production = FoodBuilding.Work(GameState.StoredMaterials <= 0);
 
                 if (GameState.FoodStorageCapacity < GameState.StoredFood + production)
                 {
@@ -34,13 +34,13 @@ public class ResourceSystem
             }
             else if (building is SupplyMineState MaterialBuilding)
             {
-                int production = MaterialBuilding.Work(GameState.StoredMaterials < 0);
+                int production = MaterialBuilding.Work(GameState.StoredMaterials <= 0);
+
                 if (GameState.MaterialsStorageCapacity < GameState.StoredMaterials + production)
                 {
                     production = GameState.MaterialsStorageCapacity - GameState.StoredMaterials;
                 }
                 GameState.StoredMaterials += production;
-                
             }
         }
     }
@@ -150,9 +150,15 @@ public class ResourceSystem
                 break;
             }
 
-            if (!enumerator.Current.FireGynaikoeidesBuilder())
+            if (enumerator.Current.FireGynaikoeidesBuilder())
             {
-                hasCurrent = enumerator.MoveNext();
+                GameState.WorkingGynaikoeideisCount--;
+                GameState.ActiveGynaikoeideisCount--;
+                GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+            }
+            else 
+            {
+                 hasCurrent = enumerator.MoveNext();
             }
         }
 
@@ -177,14 +183,26 @@ public class ResourceSystem
             {
                 if (enumerator.Current is FoodVaultState foodBuilding)
                 {
-                    if (!foodBuilding.FireGynaikoeidesWorker())
+                    if (foodBuilding.FireGynaikoeidesWorker())
+                    {
+                        GameState.WorkingGynaikoeideisCount--;
+                        GameState.ActiveGynaikoeideisCount--;
+                        GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+                    }
+                    else
                     {
                         hasCurrent = enumerator.MoveNext();
                     }
                 }
                 else if (enumerator.Current is SupplyMineState materialsBuilding)
                 {
-                    if (!materialsBuilding.FireGynaikoeidesWorker())
+                    if (materialsBuilding.FireGynaikoeidesWorker())
+                    {
+                        GameState.WorkingGynaikoeideisCount--;
+                        GameState.ActiveGynaikoeideisCount--;
+                        GameState.StoredMaterials += GameState.GynaikoeidesToMaterials;
+                    }
+                    else
                     {
                         hasCurrent = enumerator.MoveNext();
                     }

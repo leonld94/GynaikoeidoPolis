@@ -57,6 +57,7 @@ public class LeftDownUIPanelScript : MonoBehaviour
 
     public void GynaikoeideisUIRefresh()
     {
+        //Debug.Log($"활성화 인형: {GameState.ActiveGynaikoeideisCount}, 비활성화 인형:{GameState.InactiveGynaikoeideisCount}");
         ActiveGynaikoeideisValueText2.text = GameState.ActiveGynaikoeideisCount.ToString();
         AllGynaikoeideisValueText.text = (GameState.InactiveGynaikoeideisCount
             + GameState.ActiveGynaikoeideisCount).ToString();

@@ -7,6 +7,10 @@
 /[Uu]ser[Ss]ettings/
 /.unity-cli/
 
+# Imported third-party source packs
+/Assets/3rd Party Assets/
+/Assets/3rd Party Assets.meta
+
 # Visual Studio / IDE generated files
 .vs/
 .idea/

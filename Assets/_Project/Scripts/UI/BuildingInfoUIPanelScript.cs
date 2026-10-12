@@ -58,6 +58,11 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
     private bool _flag;
     private int _num;
 
+    public void Initialize()
+    {
+        gameObject.SetActive(false);
+    }
+
     public bool ShowUIPanel(BuildingState buildingState)
     {
         bool mustOffUI = true;

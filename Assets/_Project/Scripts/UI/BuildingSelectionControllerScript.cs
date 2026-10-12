@@ -12,6 +12,7 @@ public class BuildingSelectionControllerScript : MonoBehaviour
     [SerializeField] public InputActionReference SelectAction;
     [Header("UI")]
     [SerializeField] private BuildingInfoUIPanelScript BuildingInfoUIPanel;
+    [SerializeField] private AudioSource BuildingSelectSound;
 
     private RaycastHit _hit;
     private Vector2 _mousePosition;
@@ -61,6 +62,8 @@ public class BuildingSelectionControllerScript : MonoBehaviour
 
         // LateUpdate 시점에는 이번 프레임의 Hover 판정이 이미 끝나 있다.
         _nowSelectedObject = _nowHoveredObject;
+
+        BuildingSelectSound.Play();
 
         //Debug.Log("Object is" + _nowSelectedObject);
         //Debug.Log("BuildingState is " + _nowSelectedObject?.SelectableBuildingState);
