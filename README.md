@@ -1,6 +1,7 @@
 # GynaikoeidoPolis Γυναικοειδόπολις
 
 ## 현재 구현된 프로토타입 개요
+[현재 최신 릴리즈](https://github.com/leonld94/GynaikoeidoPolis/releases/tag/v0.1.0)
 
 작은 고정 정착지에서 제한된 노동력과 생산 시설을 관리하며 구조대가 도착할 때까지 생존하는 `5~10분` 분량의 3D 쿼터뷰 경영 프로토타입
 
