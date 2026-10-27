@@ -9,6 +9,14 @@ public class DepotState : BuildingState
         StoreType storeType = StoreType.Food) 
         : base(siteId, isConstructed)
     {
+        if (!IsConstructed)
+        {
+            BuildingName = "창고 부지";
+        }
+        else
+        {
+            BuildingName = "창고";
+        }
         RequiredMaterials = 1000;
         StoreType = storeType; // 기본이 Food 
     }

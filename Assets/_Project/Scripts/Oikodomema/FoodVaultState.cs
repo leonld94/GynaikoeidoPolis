@@ -16,6 +16,14 @@ public class FoodVaultState : BuildingState, IWorkable
     public FoodVaultState(string siteId, bool isConstructed) 
         : base(siteId, isConstructed)
     {
+        if (!IsConstructed)
+        {
+            BuildingName = "식량영구저장소 부지";
+        }
+        else
+        {
+            BuildingName = "식량영구저장소";
+        }
         AnthroposWorkerCount = 0;
         GynaikoeidesWorkerCount = 0;
         RequiredMaterials = 500;

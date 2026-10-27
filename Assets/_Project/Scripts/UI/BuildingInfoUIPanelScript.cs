@@ -79,9 +79,12 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
         gameObject.SetActive(true);
         mustOffUI = false;
 
+        Debug.Log(buildingState.BuildingName);
+
+        BuildingNameText.text = buildingState.BuildingName;
+
         if (buildingState is DepotState depotState)
         {
-            BuildingNameText.text = "창고";
             if (!buildingState.IsConstructed)
             {
                 ShowUnderConstructionUI();
@@ -144,8 +147,6 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
 
             if (buildingState is FoodVaultState foodBuilding)
             {
-                BuildingNameText.text = "식량영구저장소";
-
                 // 노동자
                 int workerNum = foodBuilding.GynaikoeidesWorkerCount
                     + foodBuilding.AnthroposWorkerCount;
@@ -166,8 +167,6 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
             }
             else if (buildingState is SupplyMineState materialsBuilding)
             {
-                BuildingNameText.text = "자재채굴소";
-
                 // 노동자
                 int workerNum = materialsBuilding.GynaikoeidesWorkerCount
                     + materialsBuilding.AnthroposWorkerCount;

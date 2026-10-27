@@ -14,6 +14,7 @@ public class BuildingState
     public int AnthropoiBuilderCount { get; set; } // 현재 건설 노동자 수
     public int GynaikoeideisBuilderCount { get; set; } // 현재 건설 노동자 수
     public int BuilderLimit { get; }
+    public string BuildingName { get; protected set; }
 
 
     public BuildingState(string siteId, bool isConstructed)
@@ -124,6 +125,7 @@ public class BuildingState
     {
         if(ConstructionProgress >= 1.0f)
         {
+            BuildingName = BuildingName.Split(" ")[0];
             IsConstructed = true;
             return true;
         }

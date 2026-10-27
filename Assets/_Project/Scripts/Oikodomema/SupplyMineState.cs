@@ -14,6 +14,14 @@ public class SupplyMineState : BuildingState, IWorkable
     public SupplyMineState(string siteId, bool isConstructed) 
         : base(siteId, isConstructed)
     {
+        if (!IsConstructed)
+        {
+            BuildingName = "자재채굴소 부지";
+        }
+        else
+        {
+            BuildingName = "자재채굴소";
+        }
         AnthroposWorkerCount = 0;
         GynaikoeidesWorkerCount = 0;
         RequiredMaterials = 600;
