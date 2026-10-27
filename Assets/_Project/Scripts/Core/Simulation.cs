@@ -142,8 +142,6 @@ public class Simulation
 
             // 패배 처리
             GameState.GameFlow = 0; // 게임 종료
-            // Todo: 패배 UI 띄우기
-            //UIManager.ShowFailureUI();
             FailureOccurred?.Invoke();
         }
     }

@@ -13,6 +13,7 @@ public class SimulationController : MonoBehaviour
     [SerializeField] public InputActionReference speed2Action;
     [SerializeField] public InputActionReference speed3Action;
     [SerializeField] public InputActionReference speed6Action;
+    [SerializeField] public InputActionReference escapeAction;
 
 
     // 바깥에서 참조할 수 있는 Simulation. SimulationController가 Simulation을 가지고 있어야 함.
@@ -39,6 +40,8 @@ public class SimulationController : MonoBehaviour
     public enum TimeSpeed { One = 1, Two = 2, Three = 3, Six = 6 };
     public bool IsPaused { get; private set; } = true;
     public TimeSpeed GameSpeed { get; private set; } = TimeSpeed.One;
+    public bool isEscaped { get; private set; } = false;
+    public int GameEscapeFlow { get => isEscaped ? 0 : 1; }
 
     private void Awake()
     {
@@ -92,11 +95,16 @@ public class SimulationController : MonoBehaviour
         speed3Action.action.performed += OnSpeed3;
         speed6Action.action.performed += OnSpeed6;
 
+        escapeAction.action.performed += OnEscape;
+
+        
         pauseAction.action.Enable();
         speed1Action.action.Enable();
         speed2Action.action.Enable();
         speed3Action.action.Enable();
         speed6Action.action.Enable();
+
+        escapeAction.action.Enable();
     }
 
     private void OnDisable()
@@ -107,11 +115,16 @@ public class SimulationController : MonoBehaviour
         speed3Action.action.performed -= OnSpeed3;
         speed6Action.action.performed -= OnSpeed6;
 
+        escapeAction.action.performed -= OnEscape;
+
+
         pauseAction.action.Disable();
         speed1Action.action.Disable();
         speed2Action.action.Disable();
         speed3Action.action.Disable();
         speed6Action.action.Disable();
+
+        escapeAction.action.Disable();
     }
 
     private void OnPause(InputAction.CallbackContext context)
@@ -189,6 +202,20 @@ public class SimulationController : MonoBehaviour
         ScreenUIManager.TimeSwitchChanged(IsPaused, GameSpeed);
     }
 
+    private void OnEscape(InputAction.CallbackContext context)
+    {
+        OnEscapeClicked();
+    }
+
+    public void OnEscapeClicked()
+    {
+
+        //GameFlow 0으로 만들기 || 새로운 변수 만들어서 넣기
+        isEscaped = !isEscaped;
+        //ScreenUI에서 키고 끄기
+        ScreenUIManager.SwitchEscapeUIPanel(isEscaped);
+    }
+
 
     private void Update()
     {
@@ -205,7 +232,7 @@ public class SimulationController : MonoBehaviour
         //만약 나중에 TimeScale을 건든다면 문제가 생기므로 선제적으로 Time.unscaledDeltaTime로 변경
         // Simulation.GameStatus는 게임이 진행중인지 끝난건지를 위한 인수.
         _timeAccumulator += (double)Time.unscaledDeltaTime * (int)GameSpeed
-            * Simulation.GameState.GameFlow;
+            * Simulation.GameState.GameFlow * GameEscapeFlow;
         
         while (_timeAccumulator >= TickInterval)
         {

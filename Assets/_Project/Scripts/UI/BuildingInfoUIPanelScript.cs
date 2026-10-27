@@ -79,7 +79,7 @@ public class BuildingInfoUIPanelScript : MonoBehaviour
         gameObject.SetActive(true);
         mustOffUI = false;
 
-        Debug.Log(buildingState.BuildingName);
+        //Debug.Log(buildingState.BuildingName);
 
         BuildingNameText.text = buildingState.BuildingName;
 
