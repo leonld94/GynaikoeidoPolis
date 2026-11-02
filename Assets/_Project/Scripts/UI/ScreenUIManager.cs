@@ -15,6 +15,7 @@ public class ScreenUIManager : MonoBehaviour
     [SerializeField] private RightDownUIPanelScript RightDownUIPanel;
     [SerializeField] private EndingPanel EndingPanel;
     [SerializeField] private BuildingInfoUIPanelScript BuildingInfoUIPanel;
+    [SerializeField] private EscapeUIPanelScript EscapeUIPanel;
 
     [Header("Audio")]
     [SerializeField] private AudioSource ButtonClickSound;
@@ -143,6 +144,12 @@ public class ScreenUIManager : MonoBehaviour
         //Debug.Log("ScreenUIManager.TimeSwitchCahged() Called");
         //TimeChangedSound.Play();
         RightDownUIPanel.TimeSwitchChanged(isPaused, gameSpeed);
+    }
+
+    public void SwitchEscapeUIPanel(bool isEscaped)
+    {
+        //true면 화면 띄우고 false면 안띄우면 됨
+        EscapeUIPanel.SwitchEscapeUIPanel(isEscaped);
     }
 
     /// <summary>
@@ -354,4 +361,5 @@ public class ScreenUIManager : MonoBehaviour
     {
         CloseButtonClickSound.Play();
     }
+
 }
