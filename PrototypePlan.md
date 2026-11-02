@@ -192,22 +192,18 @@ Refresh는 LinkedList 한 번 순회하면서 뱉는거로 하고.
 +	Update에서 카메라가 최종위치에 점진적으로 접근하도록 변경
 
 
-Readmd.md 고치기
-
-튜토리얼 하나씩 띄우게 하기 => 임롬같은 진행형 튜토리얼 탭 구성(Tutorial Window)
 
 
+- branch tutorial-reconstitute 만들기
+  * 튜토리얼 하나씩 띄우게 하기 => 임롬같은 진행형 튜토리얼 탭 구성(Tutorial Window)
+  * 튜토리얼 더 추가하기; e.g. 시간 배속, 
+  * ESC의 Tutorial과 연결하기
 
-튜토리얼 더 추가하기; e.g. 시간 배속, 
 
-하나씩 조명하는 튜토리얼 창 자체를 만들기
+- Readmd.md 고치기 : 문서 최신화
 
-인형 => 자동인형으로 이름 바꾸기
-
-정보탭 만들기
-
-Holverable Icon 만들기(Hover 시 Script 창 나옴)
-
-건물 Hover 모서리 재디자인 검토
-
-건물 클릭시 모서리 잔류
+- 인형 => 자동인형으로 이름 바꾸기
+- 정보탭 만들기
+- Holverable Icon 만들기(Hover 시 Script 창 나옴)
+- 건물 Hover 모서리 재디자인 검토 
+- 건물 클릭시 모서리 잔류
