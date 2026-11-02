@@ -210,10 +210,15 @@ public class SimulationController : MonoBehaviour
     public void OnEscapeClicked()
     {
 
-        //GameFlow 0으로 만들기 || 새로운 변수 만들어서 넣기
-        isEscaped = !isEscaped;
-        //ScreenUI에서 키고 끄기
-        ScreenUIManager.SwitchEscapeUIPanel(isEscaped);
+        // 만약 게임이 진행중이라면
+
+        if(Simulation.GameState.GameFlow == 1)
+        {
+            //GameFlow 0으로 만들기 || 새로운 변수 만들어서 넣기
+            isEscaped = !isEscaped;
+            //ScreenUI에서 키고 끄기
+            ScreenUIManager.SwitchEscapeUIPanel(isEscaped);
+        }
     }
 
 
